@@ -13,14 +13,42 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
     
-    number = ''
+    number = '0'
+    number_2 = '0'
+    dzialanie = ''
+    operator = [float(number), dzialanie, float(number_2)]
+
+    def cleen_label(self):
+          Ui_Dialog.number = '0'
+          Ui_Dialog.number_2 = '0'
+          Ui_Dialog.dzialanie = ''
+          Ui_Dialog.operator = [float(Ui_Dialog.number), Ui_Dialog.dzialanie, float(Ui_Dialog.number_2)]
+          self.label.setText(Ui_Dialog.number)
 
     def add_number(self, add):
-        print(type(add),add, Ui_Dialog.number) 
-        if len(Ui_Dialog.number) < 12:
-                Ui_Dialog.number = Ui_Dialog.number + add
-                self.label.setText(Ui_Dialog.number)
+        if Ui_Dialog.operator[1] == '':
+                if len(Ui_Dialog.number) < 12:
+                        if Ui_Dialog.number[0] == '0':
+                                Ui_Dialog.number = add
+                        else:
+                                Ui_Dialog.number = Ui_Dialog.number + add
+                        self.label.setText(Ui_Dialog.number)
+                        Ui_Dialog.operator[0] = float(Ui_Dialog.number)
+        else:
+                if len(Ui_Dialog.number) < 12:
+                        if Ui_Dialog.number_2[0] == '0':
+                                Ui_Dialog.number_2 = add
+                        else:
+                                Ui_Dialog.number_2 = Ui_Dialog.number_2 + add
+                        self.label.setText(Ui_Dialog.number_2)
+                        Ui_Dialog.operator[2] = float(Ui_Dialog.number_2)
+              
+        print(add, Ui_Dialog.operator)
 
+    def add_dzialanie(self, add):
+        Ui_Dialog.operator[1] = add
+        print(Ui_Dialog.operator)
+             
 
     def setupUi(self, Dialog):
 
@@ -69,6 +97,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_dz.setObjectName("pushButton_dz")
         self.gridLayout.addWidget(self.pushButton_dz, 3, 1, 1, 1)
+        self.pushButton_dz.clicked.connect(lambda: self.add_dzialanie('/'))
 
         #procent
         self.pushButton_per = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -87,6 +116,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_CE.setObjectName("pushButton_CE")
         self.gridLayout.addWidget(self.pushButton_CE, 3, 3, 1, 1)
+        self.pushButton_CE.clicked.connect(self.cleen_label)
 
         #1
         self.pushButton_1 = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -127,6 +157,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_mul.setObjectName("pushButton_mul")
         self.gridLayout.addWidget(self.pushButton_mul, 4, 3, 1, 1)
+        self.pushButton_mul.clicked.connect(lambda: self.add_dzialanie('*'))
 
         #4
         self.pushButton_4 = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -166,6 +197,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_min.setObjectName("pushButton_min")
         self.gridLayout.addWidget(self.pushButton_min, 5, 3, 1, 1)
+        self.pushButton_min.clicked.connect(lambda: self.add_dzialanie('-'))
 
         #7
         self.pushButton_7 = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -205,6 +237,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_sum.setObjectName("pushButton_sum")
         self.gridLayout.addWidget(self.pushButton_sum, 6, 3, 1, 1)
+        self.pushButton_sum.clicked.connect(lambda: self.add_dzialanie('+'))
 
         #kropka
         self.pushButton_dot = QtWidgets.QPushButton(self.gridLayoutWidget)
