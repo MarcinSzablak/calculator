@@ -43,12 +43,64 @@ class Ui_Dialog(object):
                         self.label.setText(Ui_Dialog.number_2)
                         Ui_Dialog.operator[2] = float(Ui_Dialog.number_2)
               
-        print(add, Ui_Dialog.operator)
+        #print(add, Ui_Dialog.operator)
 
     def add_dzialanie(self, add):
         Ui_Dialog.operator[1] = add
-        print(Ui_Dialog.operator)
-             
+        #print(Ui_Dialog.operator)
+
+    def exe(self):
+        number1 = Ui_Dialog.operator[0]
+        number2 = Ui_Dialog.operator[2]
+        dz = Ui_Dialog.operator[1]
+
+        if dz == '+':
+              number1 += number2
+        elif dz == '-':
+              number1 -= number2
+        elif dz == '/':
+                if Ui_Dialog.operator[2] == 0.0:
+                        self.label.setText('ERROR')
+                        return
+                else:
+                        number1 /= number2
+        elif dz == '*':
+              number1 *= number2
+
+        number1 = round(number1,4)
+        self.cleen_label()
+
+        self.label.setText(str(number1))
+
+    def percent(self):
+        if Ui_Dialog.operator[1] == '':
+              Ui_Dialog.operator[0] /= 100
+              Ui_Dialog.number = str(Ui_Dialog.operator[0])
+              self.label.setText(Ui_Dialog.number)
+        else:
+              Ui_Dialog.operator[2] /= 100
+              Ui_Dialog.number_2 = str(Ui_Dialog.operator[2])
+              self.label.setText(Ui_Dialog.number_2)
+
+    def power(self):
+        if Ui_Dialog.operator[1] == '':
+              Ui_Dialog.operator[0] **= 2
+              Ui_Dialog.number = str(Ui_Dialog.operator[0])
+              self.label.setText(Ui_Dialog.number)
+        else:
+              Ui_Dialog.operator[2] **= 2
+              Ui_Dialog.number_2 = str(Ui_Dialog.operator[2])
+              self.label.setText(Ui_Dialog.number_2)
+
+    def pierwiastek(self):
+        if Ui_Dialog.operator[1] == '':
+              Ui_Dialog.operator[0] **= (1/2)
+              Ui_Dialog.number = str(round(Ui_Dialog.operator[0],4))
+              self.label.setText(Ui_Dialog.number)
+        else:
+              Ui_Dialog.operator[2] **= (1/2)
+              Ui_Dialog.number_2 = str(round(Ui_Dialog.operator[2],4))
+              self.label.setText(Ui_Dialog.number_2)
 
     def setupUi(self, Dialog):
 
@@ -88,6 +140,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_power.setObjectName("pushButton_power")
         self.gridLayout.addWidget(self.pushButton_power, 3, 0, 1, 1)
+        self.pushButton_power.clicked.connect(self.power)
 
         #dzielenie
         self.pushButton_dz = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -107,6 +160,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_per.setObjectName("pushButton_per")
         self.gridLayout.addWidget(self.pushButton_per, 3, 2, 1, 1)
+        self.pushButton_per.clicked.connect(self.percent)
 
         #usuwanie
         self.pushButton_CE = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -267,6 +321,7 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_pier.setObjectName("pushButton_pier")
         self.gridLayout.addWidget(self.pushButton_pier, 7, 2, 1, 1)
+        self.pushButton_pier.clicked.connect(self.pierwiastek)
 
         #równa się
         self.pushButton_eq = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -276,6 +331,7 @@ class Ui_Dialog(object):
 "color: \'#ffffff\';")
         self.pushButton_eq.setObjectName("pushButton_eq")
         self.gridLayout.addWidget(self.pushButton_eq, 7, 3, 1, 1)
+        self.pushButton_eq.clicked.connect(self.exe)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -311,5 +367,6 @@ if __name__ == "__main__":
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
+    Dialog.setWindowTitle('calculator')
     Dialog.show()
     sys.exit(app.exec_())
